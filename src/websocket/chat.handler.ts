@@ -7,7 +7,7 @@ import {
 import { addMember, addMemberBatch, purgeMembers, updateMemberPresence } from '../store/actions/members'
 import { setConnectionHealth, setHello } from '../store/actions/appState'
 import UnionStore, { UnionStoreMember, UnionStoreServer } from '../store/store.interface'
-import Parser from '../components/Server/formatter'
+import Parser from '../components/Server/Chat/formatter'
 
 export const hello = (data: SocketServer[], dispatch: any) => {
   let servers: UnionStoreServer[] = []
