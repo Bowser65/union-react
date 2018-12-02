@@ -1,0 +1,123 @@
+@import '../vars';
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  background-color: $dark1;
+  border-right: 1px $dark0 solid;
+
+  &-header {
+    height: 50px;
+    padding: 10px 15px;
+    line-height: 30px;
+    font-size: 18px;
+    border-right: 1px $dark1 solid;
+    border-bottom: 1px $dark0 solid;
+  }
+
+  &-channels {
+    padding: 20px;
+
+    &-category {
+      margin-bottom: 20px;
+
+      &-title {
+        transition: opacity .3s;
+        opacity: .6;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        margin-left: -10px;
+        margin-bottom: 5px;
+
+        &:hover {
+          opacity: .8;
+        }
+
+        &::before {
+          transition: transform .3s;
+          content: '';
+          display: block;
+          width: 18px;
+          height: 18px;
+          margin-right: 3px;
+          background-image: url('../../img/arrow.svg');
+        }
+      }
+
+      &-item {
+        transition: opacity .3s;
+        display: none;
+        opacity: .6;
+        align-items: center;
+        margin-bottom: 5px;
+
+        &.active {
+          opacity: 1;
+        }
+
+        &:hover {
+          opacity: .8;
+        }
+
+        &::before {
+          content: '';
+          display: block;
+          width: 16px;
+          height: 16px;
+          margin-right: 3px;
+        }
+
+        &.txt::before {
+          background-image: url('../../img/text_channel.svg');
+        }
+
+        &.voice::before {
+          background-image: url('../../img/voice_channel.svg');
+        }
+      }
+
+      &.expended &-title::before {
+        transform: rotate(90deg);
+      }
+
+      &.expended &-item {
+        display: flex;
+      }
+    }
+  }
+
+  &-account {
+    margin-top: auto;
+    height: 53px;
+    padding: 10px;
+    border-top: 1px $dark0 solid;
+    align-items: center;
+    display: flex;
+
+    &-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+
+      &.online {
+        border: 2px $green solid;
+      }
+    }
+
+    &-info {
+      margin-left: 10px;
+      margin-right: 10px;
+
+      .username {
+        font-size: 14px;
+      }
+
+      .discriminator {
+        font-size: 10px;
+        opacity: .5;
+      }
+    }
+  }
+}

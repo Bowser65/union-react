@@ -1,6 +1,5 @@
 import { SocketMemberAdd, SocketMemberLeave, SocketMessage, SocketPresence, SocketServer } from './chat.interface'
 import {
-  ackServerMessage,
   addServer, addServerBatch, addServerMember, addServerMessage, deleteServer, purgeServers,
   removeServerMember, serverPoke
 } from '../store/actions/servers'

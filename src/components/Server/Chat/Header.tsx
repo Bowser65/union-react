@@ -28,12 +28,6 @@ class Header extends React.Component<IProps, IState> {
   render () {
     const owner = this.props.server.owner === this.props.userId
     return <div className='server-header'>
-      <div className='server-header-name'>
-        {this.props.server.name}
-        {owner && <Tooltip placement='bottom' overlay="You're the server owner" mouseLeaveDelay={0}>
-          <img src={require('../../../img/star.svg')}/>
-        </Tooltip>}
-      </div>
       <div className='server-header-actions'>
         {this.state.gettingInvite ? <div className='server-header-actions-invite'>
             {this.state.invite ? [

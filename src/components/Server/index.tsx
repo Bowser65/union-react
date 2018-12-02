@@ -1,63 +1,68 @@
 import React from 'react'
-import { Switch, withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
-import { Route } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router'
+import UnionStore, { UnionStoreServer } from '../../store/store.interface'
 
-import AsyncComponent from '../AsyncComponent'
-import ServerList from './ServerList'
-import Loader from '../Loader'
-
-import UnionStore from '../../store/store.interface'
-
-const Server = () => import('./Server')
-
-import './style.scss'
+import ServerChat from './Chat'
+import ServerHeader from './Chat/Header'
+import ServerMembers from './Chat/Members'
+import ServerSidebar from '../Sidebar/Server'
 
 interface IProps {
-  hello: boolean
-  username: string
+  location: {
+    pathname: string
+  }
+  servers: UnionStoreServer[]
+  connectionHealth: boolean
+  userId: string
 }
 
-class Home extends React.Component<IProps> {
+interface IState {
+  server: number
+}
+
+class Index extends React.Component<IProps, IState> {
+
+  constructor (props: IProps) {
+    super(props)
+    this.state = {
+      server: parseInt(/\/servers\/([0-9]+)/.exec(this.props.location.pathname)[1])
+    }
+  }
+
+  shouldComponentUpdate (nextProps: IProps) {
+    if (this.props.userId !== nextProps.userId) return true
+    if (this.props.connectionHealth !== nextProps.connectionHealth) return true
+    const server = this.props.servers.filter(server => server.id === this.state.server)[0]
+    const nextServer = nextProps.servers.filter(server => server.id === this.state.server)[0]
+    return JSON.stringify(server) !== JSON.stringify(nextServer) // Only update if targeted server is updated
+  }
 
   render () {
-    if (!this.props.hello) return <Loader/>
+    const server = this.props.servers.filter(server => server.id === this.state.server)[0]
+    if (!server) return <Redirect to='/servers'/>
 
-    return <div className='union'>
-      <ServerList/>
-      <div className='union-container'>
-        <Switch>
-          <Route path='/servers' render={() => this.renderNoServer()} exact/>
-          <Route path='/servers/:id([0-9]+)' component={() => <AsyncComponent moduleProvider={Server}/>} exact/>
-        </Switch>
+    return <div className='server'>
+      <ServerSidebar/>
+      <div className='server-inner'>
+        <ServerHeader server={server} userId={this.props.userId} connectionHealth={this.props.connectionHealth}/>
+        <ServerChat server={server}/>
       </div>
+      <ServerMembers serverMembers={server.members}/>
     </div>
   }
 
-  renderNoServer () {
-    return <div className='union-welcome'>
-      <h1>Welcome to Union {this.props.username}!</h1>
-      <div className='union-welcome-content'>
-        Select a server, create a new fancy one or join some friends in the left sidebar
-      </div>
-      <a className='union-welcome-contribute' href='https://github.com/Union-Chat' target='_blank'>
-        Help us improve Union on GitHub
-      </a>
-    </div>
-  }
 }
 
 const mapStateToProps = (store: UnionStore) => ({
-  username: store.appState.self.username,
-  hello: store.appState.hello
+  servers: store.servers,
+  connectionHealth: store.appState.connectionHealth,
+  userId: store.appState.self.id
 })
-
 
 export default hot(module)(
   withRouter(
-    connect(
-      mapStateToProps
-    )(Home as any) as any
+    connect(mapStateToProps)(Index as any) as any
   )
 )

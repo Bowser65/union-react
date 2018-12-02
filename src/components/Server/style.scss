@@ -134,44 +134,4 @@
     z-index: 1;
     position: relative;
   }
-
-  &-welcome {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    text-align: center;
-
-    h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-
-    &-content {
-      font-size: 22px;
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
-
-    &-contribute {
-      margin-top: 25px;
-      color: #fff;
-      display: block;
-      text-decoration: none;
-      height: 36px;
-      line-height: 36px;
-      padding: 0 15px;
-      font-size: 14px;
-      background-color: #292d32;
-    }
-  }
-}
-
-.server {
-  &-inner {
-    display: flex;
-  }
 }

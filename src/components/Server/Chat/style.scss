@@ -12,7 +12,6 @@
   }
 
   &-header, &-members {
-    background-color: $dark1;
   }
 
   &-chat, &-members {
@@ -24,7 +23,7 @@
     line-height: 30px;
     padding: 10px 15px;
     font-size: 18px;
-    height: 50px;
+    min-height: 50px;
     border-bottom: 1px $dark0 solid;
 
     &-name {
@@ -83,6 +82,7 @@
   }
 
   &-members {
+    background-color: $dark1;
     padding: 0 15px;
     border-left: 1px $dark0 solid;
     width: 250px;

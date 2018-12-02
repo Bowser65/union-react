@@ -2,10 +2,12 @@ import React from 'react'
 import Tooltip from 'rc-tooltip'
 import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import UnionStore, { UnionStoreServer } from '../../store/store.interface'
 import UnionSvg from '../UnionSvg'
+
+import './style.scss'
 
 interface IProps {
   maxServers: number
@@ -30,13 +32,13 @@ class Servers extends React.Component<IProps, IState> {
 
   render () {
     return <div className='union-servers'>
-      <div className='union-servers-logo'>
-        <Tooltip placement='right' overlay='UnionChat v2.0.0' mouseLeaveDelay={0} mouseEnterDelay={2}>
+      <Link to='/home' className='union-servers-logo'>
+        <Tooltip placement='right' overlay='Home' mouseLeaveDelay={0}>
           <div>
             <UnionSvg className='union-servers-logo' fill='#fff'/>
           </div>
         </Tooltip>
-      </div>
+      </Link>
       {this.props.servers.map(server =>
         <NavLink to={'/servers/' + server.id} className='union-servers-server' key={server.id}
                  activeClassName='selected'>
@@ -50,17 +52,17 @@ class Servers extends React.Component<IProps, IState> {
       )}
       {this.props.servers.filter(s => s.owner === this.props.userId).length < this.props.maxServers &&
       <div className='union-servers-create'>
-        {this.state.displayCreate ? <img src={require('../../img/add.svg')}/>
+        {this.state.displayCreate ? <img src={require('../../img/add.svg')} alt='add'/>
           : <Tooltip placement='right' overlay='Create or join a server' mouseLeaveDelay={0}>
-            <img src={require('../../img/add.svg')} onClick={() => this.popup()}/>
+            <img src={require('../../img/add.svg')} onClick={() => this.popup()} alt='add'/>
           </Tooltip>}
         {this.state.displayCreate && <div className='union-servers-create-select'>
           <div onClick={() => this.create()}>
-            <img src={require('../../img/create.svg')}/>
+            <img src={require('../../img/create.svg')} alt='create'/>
             <span>Create a new server</span>
           </div>
           <div onClick={() => this.join()}>
-            <img src={require('../../img/invite.svg')}/>
+            <img src={require('../../img/invite.svg')} alt='invite'/>
             <span>Join a server</span>
           </div>
         </div>}

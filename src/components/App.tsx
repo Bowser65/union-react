@@ -1,18 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
-import { Redirect, Switch, Route as ReactRoute, withRouter } from 'react-router'
+import { Redirect, Switch, Route, withRouter } from 'react-router'
 import UnionStore, { UnionStoreAPI } from '../store/store.interface'
 
-import AsyncComponent from './AsyncComponent'
+import AsyncC from './AsyncComponent'
 import Loader from './Loader'
-import Route from './Route'
 
 const Login = () => import('./Login')
-const Home = () => import('./Server')
-const Invite = () => import('./Invite')
+const Home = () => import('./Home')
+const Server = () => import('./Server')
+const Invite = () => import('./Server/Invite')
 
 import './App.scss'
+import ServerList from './Server/ServerList'
 
 interface IProps {
   token: string
@@ -32,16 +33,24 @@ class App extends React.Component<IProps> {
       <p>Union API is incompatible with this version of union-react</p>
     </div>
 
-    if (!this.props.token) return <AsyncComponent moduleProvider={Login}/>
+    if (!this.props.token) return <AsyncC moduleProvider={Login}/>
 
-    return <Switch>
-      {/* Union Home */}
-      {/* Union Chat */}
-      <Route path='/servers' component={() => <AsyncComponent moduleProvider={Home}/>} allowed={this.props.token}/>
-      {/* Misc */}
-      <ReactRoute path='/' render={() => <Redirect to='/servers'/>} exact/>
-      <Route path='/i/:code([a-zA-Z0-9\-_]+)' component={() => <AsyncComponent moduleProvider={Invite}/>} allowed={this.props.token}/>
-    </Switch>
+    return <div className='union'>
+      <ServerList/>
+      <div className='union-container'>
+        <Switch>
+          {/* Union Home */}
+          <Route path='/home' component={() => <AsyncC moduleProvider={Home}/>}/>
+
+          {/* Union Chat */}
+          <Route path='/servers/:id([0-9]+)' component={() => <AsyncC moduleProvider={Server}/>} exact/>
+
+          {/* Misc */}
+          <Route path='/' render={() => <Redirect to='/home'/>} exact/>
+          <Route path='/i/:code([a-zA-Z0-9\-_]+)' component={() => <AsyncC moduleProvider={Invite}/>}/>
+        </Switch>
+      </div>
+    </div>
   }
 }
 
