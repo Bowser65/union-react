@@ -5,6 +5,13 @@ import { hot } from 'react-hot-loader'
 import Parser from './formatter'
 import { UnionStoreMember, UnionStoreMessage, UnionStoreOrganizedMessages } from '../../../store/store.interface'
 
+const avatars = [
+  require('../../../img/avatars/avatar.0.svg'),
+  require('../../../img/avatars/avatar.1.svg'),
+  require('../../../img/avatars/avatar.2.svg'),
+  require('../../../img/avatars/avatar.3.svg')
+]
+
 interface IProps {
   ackServerMessages: () => void
   unread: boolean
@@ -46,18 +53,21 @@ class Messages extends React.Component<IProps> {
 
     return <div className='server-chat-messages'>
       <Scrollbars ref={this.scrollbarRef} onScroll={() => this.ackOnScroll()}>
-        {messages.reverse().map(messages => <div className='server-chat-message' key={messages.id}>
-          <img className='server-chat-message-avatar' src={require('../../../img/default_avatar.png')}/>
-          <div className='server-chat-message-contents'>
-            <div className='server-chat-message-meta'>
-              <span>{messages.author.username}</span>
-              <span>{this.formatDate(new Date(messages.messages[0].createdAt))}</span>
+        {messages.reverse().map(messages => {
+          const avatar = messages.author.avatarUrl || avatars[messages.author.discriminator % 4]
+          return <div className='server-chat-message' key={messages.id}>
+            <img className='server-chat-message-avatar' src={avatar} alt='avatar'/>
+            <div className='server-chat-message-contents'>
+              <div className='server-chat-message-meta'>
+                <span>{messages.author.username}</span>
+                <span>{this.formatDate(new Date(messages.messages[0].createdAt))}</span>
+              </div>
+              {messages.messages.map(message =>
+                <div className='server-chat-message-contents' key={message.id}
+                     dangerouslySetInnerHTML={{ __html: Parser.parseMarkdown(message.content, this.props.members) }}/>)}
             </div>
-            {messages.messages.map(message =>
-              <div className='server-chat-message-contents' key={message.id}
-                   dangerouslySetInnerHTML={{ __html: Parser.parseMarkdown(message.content, this.props.members) }}/>)}
           </div>
-        </div>)}
+        })}
       </Scrollbars>
     </div>
   }

@@ -11,9 +11,6 @@
     width: calc(100% - 250px)
   }
 
-  &-header, &-members {
-  }
-
   &-chat, &-members {
     height: 100%;
   }
@@ -86,6 +83,11 @@
     padding: 0 15px;
     border-left: 1px $dark0 solid;
     width: 250px;
+
+    &-role {
+      opacity: .7;
+      margin-top: 20px;
+    }
 
     &-item {
       display: flex;

@@ -82,7 +82,7 @@ class Servers extends React.Component<IProps, IState> {
   async create () {
     const serverName = prompt('Please enter server name')
     if (!serverName) return
-    const iconUrl = prompt('Please enter server icon url', require('../../img/default_server.png'))
+    const iconUrl = prompt('Please enter server icon url', require('../../img/avatars/server.svg'))
 
     await fetch('/api/v2/servers', {
       method: 'POST',

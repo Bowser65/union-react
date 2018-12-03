@@ -44,7 +44,7 @@ class Index extends React.Component<IProps, IState> {
     if (!server) return <Redirect to='/servers'/>
 
     return <div className='server'>
-      <ServerSidebar/>
+      <ServerSidebar serverName={server.name}/>
       <div className='server-inner'>
         <ServerHeader server={server} userId={this.props.userId} connectionHealth={this.props.connectionHealth}/>
         <ServerChat server={server}/>

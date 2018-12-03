@@ -1,15 +1,13 @@
 import React from 'react'
 import { hot } from 'react-hot-loader'
-import { withRouter } from 'react-router'
 
 import Account from '../Account'
 
 interface IProps {
   serverName: string
-  owner: boolean
 }
 
-class Server extends React.Component {
+class Server extends React.Component<IProps> {
 
   constructor (props: any) {
     super(props)
@@ -18,7 +16,7 @@ class Server extends React.Component {
   render () {
     return <div className='sidebar'>
       <div className='sidebar-header'>
-        Server name
+        {this.props.serverName}
       </div>
       <div className='sidebar-channels'>
         <div className='sidebar-channels-category expended'>
@@ -32,4 +30,4 @@ class Server extends React.Component {
 
 }
 
-export default hot(module)(withRouter(Server as any))
+export default hot(module)(Server as any)

@@ -76,6 +76,10 @@
         &.voice::before {
           background-image: url('../../img/voice_channel.svg');
         }
+
+        &.selected {
+          opacity: 1;
+        }
       }
 
       &.expended &-title::before {
